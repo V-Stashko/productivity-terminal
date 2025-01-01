@@ -1,9 +1,13 @@
-import os
+text_help = '''
+🌟 Welcome to the Activity Tracker! 🌟
 
-def get_current_location() -> str:
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    db_path = os.path.join(current_dir, 'db.txt')
-    return db_path
+✍️  To add a new entry, type the command \"write\" and follow the instructions
+📖 To view your activity, type the command \"read\" and follow the instructions
+🗑️  To clear your activity, type \"clear\" and follow the instructions
+🚪 To exit the program, type the command \"exit\"
+
+🎉 Enjoy tracking your progress! 🎉
+'''
 
 def correct_format_day(day: str) -> bool:
     if (count := day.count('.') == 2):
