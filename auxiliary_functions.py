@@ -1,20 +1,11 @@
-text_help = '''
-🌟 Welcome to the Activity Tracker! 🌟
-
-✍️  To add a new entry, type the command \"write\" and follow the instructions
-📖 To view your activity, type the command \"read\" and follow the instructions
-🗑️  To clear your activity, type \"clear\" and follow the instructions
-🚪 To exit the program, type the command \"exit\"
-
-🎉 Enjoy tracking your progress! 🎉
-'''
-
 def correct_format_day(day: str) -> bool:
-    if (count := day.count('.') == 2):
-        lst = day.split('.')
-        digits = tuple(map(lambda el: el.isdigit, lst))
-        res = digits + (count,)
-        return any(res)
+    if day.count('.') == 2 and tuple(map(lambda el: el.isdigit(), day.split('.'))):
+        tpl = tuple(map(int, day.split('.')))
+        days = 1 <= tpl[0] <= 31
+        months = 1 <= tpl[1] <= 12
+        years = tpl[2] == 25
+        res = days, months, years
+        return all(res)
     else:
         return False
 

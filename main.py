@@ -1,24 +1,25 @@
-from auxiliary_functions import *
+import auxiliary_functions as axl_func
+import text
 
 def get_help() -> None:
-    print(text_help)
+    print(text.text_help)
 
 def read_file() -> None:
-    while not correct_format_day((day := input("Enter the day in \"DD.MM.YY\" format: "))):
+    while not axl_func.correct_format_day((day := input("Enter the day in \"DD.MM.YY\" format: "))):
         print('\nError: wrong format. Try again 😔', end='\n\n')
     
     with open('db.txt', mode='rt', encoding='utf-8') as file:
         lines = file.readlines()
 
-    print_lines(filter_lines(lines, day))
+    axl_func.print_lines(axl_func.filter_lines(lines, day))
 
 def write_file() -> None:
-    while not correct_format_day((day := input("Enter the day in \"DD.MM.YY\" format: "))):
+    while not axl_func.correct_format_day((day := input("Enter the day in \"DD.MM.YY\" format: "))):
         print('\nError: wrong format. Try again 😔', end='\n\n')
 
     task = input('Enter a task name: ')
 
-    while not correct_result((result := input("Enter result (0, 25, 50, 75, 100): "))):
+    while not axl_func.correct_result((result := input("Enter result (0, 25, 50, 75, 100): "))):
         print('\nError: wrong result. Try again 😔', end='\n\n')
 
     with open('db.txt', mode='a', encoding='utf-8') as file:
@@ -27,10 +28,10 @@ def write_file() -> None:
     print("\nThe task successfully recorded 📝", end='\n\n')
 
 def clear_file() -> None:
-    while (answer := input("Do you really want to clear all data? (yes, no): ")) not in ('yes', 'no'):
+    while (answer := input("\nDo you really want to clear all data? (y, n): ")) not in ('y', 'n'):
         print('\nError: wrong answer. Try again 😔', end='\n\n')
 
-    if answer == 'yes':
+    if answer == 'y':
         with open('db.txt', mode='w') as file:
             file.write('')
 
