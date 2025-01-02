@@ -8,9 +8,16 @@ def read_file() -> None:
     while not axl_func.correct_format_day((day := input("Enter the day in \"DD.MM.YY\" format: "))):
         print('\nError: wrong format. Try again 😔', end='\n\n')
     
-    with open('db.txt', mode='rt', encoding='utf-8') as file:
-        lines = file.readlines()
-
+    try:
+        with open('db.txt', mode='rt', encoding='utf-8') as file:
+            lines = file.readlines()
+    except FileNotFoundError:
+        with open('db.txt', mode='w', encoding='utf-8') as file:
+            file.write('')
+        
+        with open('db.txt', mode='rt', encoding='utf-8') as file:
+            lines = file.readlines()
+            
     axl_func.print_lines(axl_func.filter_lines(lines, day))
 
 def write_file() -> None:
