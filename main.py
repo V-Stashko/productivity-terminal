@@ -2,9 +2,15 @@ import auxiliary_functions as axl_func
 import text
 
 def get_help() -> None:
+    """print text_help
+    """    
     print(text.text_help)
 
 def read_file() -> None:
+    """
+    Prompts the user to enter a day in 'DD.MM.YY' format, reads data from 'db.txt',
+    filters lines by the specified day, and prints the filtered lines.
+    """
     while not axl_func.correct_format_day((day := input("Enter the day in \"DD.MM.YY\" format: "))):
         print('\nError: wrong format. Try again 😔', end='\n\n')
         
@@ -15,6 +21,11 @@ def read_file() -> None:
     axl_func.print_lines(axl_func.filter_lines(lines, day))
 
 def write_file() -> None:
+    """
+    Prompts the user to input a day in 'DD.MM.YY' format, a task name, and a result 
+    percentage (0, 25, 50, 75, 100). Validates the input and appends the task 
+    information to 'db.txt'.
+    """
     while not axl_func.correct_format_day((day := input("Enter the day in \"DD.MM.YY\" format: "))):
         print('\nError: wrong format. Try again 😔', end='\n\n')
 
@@ -29,6 +40,10 @@ def write_file() -> None:
     print("\nThe task successfully recorded 📝", end='\n\n')
 
 def clear_file() -> None:
+    """
+    Prompts the user for confirmation to clear all data from 'db.txt'.
+    If the user confirms with 'y', the file is cleared. Otherwise, no action is taken.
+    """
     while (answer := input("\nDo you really want to clear all data? (y, n): ")) not in ('y', 'n'):
         print('\nError: wrong answer. Try again 😔', end='\n\n')
 
@@ -39,6 +54,16 @@ def clear_file() -> None:
         print("\nThe file cleaned successfully 🗑️", end='\n\n')
 
 def main() -> None:
+    """
+    Main function to handle user commands.
+
+    Provides a command-line interface for the following commands:
+    - 'help': Display help information.
+    - 'read': Read data from the file.
+    - 'write': Write new data to the file.
+    - 'clear': Clear all data from the file.
+    - 'exit': Exit the program.
+    """
     commands = {'help': get_help, 'read': read_file, 'write': write_file, 'clear': clear_file}
 
     while True:
