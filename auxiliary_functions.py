@@ -1,22 +1,22 @@
-def correct_format_day(day: str) -> bool:
+def correct_format_date(date: str) -> bool:
     """
     Validates if the given day string is in the format 'DD.MM.YY' and represents a valid date.
 
     Args:
-        day (str): The date string to validate.
+        date (str): The date string to validate.
 
     Returns:
         bool: True if the format is correct and the date is valid, otherwise False.
     """
-    if day.count('.') != 2:
+    if date.count('.') != 2:
         return False
 
     try:
-        day_parts = list(map(int, day.split('.')))
-        day_valid = 1 <= day_parts[0] <= 31
-        month_valid = 1 <= day_parts[1] <= 12
-        year_valid = day_parts[2] == 25 
-        return day_valid and month_valid and year_valid
+        date_parts = list(map(int, date.split('.')))
+        date_valid = 1 <= date_parts[0] <= 31
+        month_valid = 1 <= date_parts[1] <= 12
+        year_valid = date_parts[2] == 25 
+        return date_valid and month_valid and year_valid
     except ValueError:
         return False
 
@@ -33,18 +33,32 @@ def correct_result(result: str) -> bool:
     """
     return int(result) in (0, 25, 50, 75, 100) if result.isdigit() else False
 
-def filter_lines(lines: list, day: str) -> list:
+def filter_lines(lines: list, filter_read: str, fltr: str) -> list:
     """
-    Filters the lines in the list, returning only those that contain the specified day.
+    Filters a list of lines based on a specified criterion and value.
 
-    Arguments:
-        lines (list): A list of strings to filter.
-        day (str): The day in the "DD.MM.YY" format to search for in the strings.
+    This function processes a list of strings (`lines`) and filters them based 
+    on the value of the filter (`fltr`) provided by the user. The filter type 
+    is determined by `filter_read`, which can be 'date', 'task', or 'result'.
+
+    Args:
+        lines (list): A list of strings where each line is expected to have 
+                      components separated by '--->'.
+        filter_read (str): The filter criterion ('date', 'task', or 'result') 
+                           to determine which component of each line to check.
+        fltr (str): The value to match within the specified filter's component.
 
     Returns:
-        list: A list of strings that contain the specified day.
+        list: A list of filtered lines that match the specified criterion and value.
+
+    Raises:
+        KeyError: If `filter_read` is not a valid key ('date', 'task', 'result') 
+                  in the filter dictionary.
+        IndexError: If a line does not have the expected format with '--->' separators.
     """
-    lst = [line.strip() for line in lines if day in line]
+    dct_filter = {'date': 0, 'task': 1, 'result': 2}
+    lst = [line.strip() for line in lines if fltr.lower() in line.split('--->')[dct_filter[filter_read]].lower()]
+
     return lst
 
 def print_lines(lines: list) -> None:
@@ -60,7 +74,7 @@ def print_lines(lines: list) -> None:
     if len(lines):
         print('-' * 30)
         for line in lines:
-            print(line)
+            print(' '.join(line.split('--->')))
         print('-' * 30)
     else:
-        print('\nError: day not found. Try again 😔', end='\n\n')
+        print('\nError: Not found. Try again 😔', end='\n\n')
