@@ -7,39 +7,26 @@ def get_help() -> None:
 
     This function retrieves and prints a predefined help message. 
     The `text.text_help` variable should contain the help text as a string.
-
-    Returns:
-        None
     """
     print(text.text_help)
 
 def read_file() -> None:
     """
-    Reads and filters data from the 'db.txt' file based on user input.
+    Filters and displays data from 'db.txt' based on user input.
 
-    This function allows the user to choose a filter (date, task, or result) to sort 
-    and display specific data from the 'db.txt' file. The process includes:
-        - Validating the filter type.
-        - Reading lines from the file.
-        - Asking for additional input based on the selected filter:
-            * For 'date', the user provides a date in the "DD.MM.YY" format.
-            * For 'task', the user provides a task name.
-            * For 'result', the user provides a numeric result (0, 25, 50, 75, 100).
-        - Filtering and displaying the matching lines using helper functions 
-          `axl_func.filter_lines` and `axl_func.print_lines`.
+    The user selects a filter type (date, task, result, all) to view specific data:
+        - 'date': Filter by a specific date ("DD.MM.YY").
+        - 'task': Filter by a task name.
+        - 'result': Filter by a numeric result (0, 25, 50, 75, 100).
+        - 'all': Display all data.
 
-    Note:
-        - The file 'db.txt' is opened in append and read mode ('a+').
-        - Validation for date format and result values is handled by `axl_func.correct_format_date` 
-          and `axl_func.correct_result`.
-
-    Returns:
-        None
+    Uses helper functions `axl_func.filter_lines` and `axl_func.print_lines` 
+    for filtering and displaying lines.
     """
-    filter_read = input("Select a data sorting filter (date, task, result): ")
-    while filter_read not in ('date', 'task', 'result'):
+    filter_read = input("Select a data sorting filter (date, task, result, all): ")
+    while filter_read not in ('date', 'task', 'result', 'all'):
         print('\nError: wrong filter. Try again 😔', end='\n\n')
-        filter_read = input("Select a data sorting filter (date, task, result): ")
+        filter_read = input("Select a data sorting filter (date, task, result, all): ")
 
     with open('db.txt', mode='a+', encoding='utf-8') as file:
         file.seek(0)
@@ -50,9 +37,12 @@ def read_file() -> None:
             print('\nError: wrong format. Try again 😔', end='\n\n')
     elif filter_read == 'task':
         fltr = input('Enter a task name: ')
-    else:
+    elif filter_read == 'result':
         while not axl_func.correct_result((fltr := input("Enter result (0, 25, 50, 75, 100): "))):
             print('\nError: wrong result. Try again 😔', end='\n\n')
+    else:
+        axl_func.print_lines(lines)
+        return
 
     axl_func.print_lines(axl_func.filter_lines(lines, filter_read, fltr))
 

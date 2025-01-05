@@ -57,7 +57,7 @@ def filter_lines(lines: list, filter_read: str, fltr: str) -> list:
         IndexError: If a line does not have the expected format with '--->' separators.
     """
     dct_filter = {'date': 0, 'task': 1, 'result': 2}
-    lst = [line.strip() for line in lines if fltr.lower() in line.split('--->')[dct_filter[filter_read]].lower()]
+    lst = [line for line in lines if fltr.lower() in line.split('--->')[dct_filter[filter_read]].lower()]
 
     return lst
 
@@ -74,7 +74,7 @@ def print_lines(lines: list) -> None:
     if len(lines):
         print('-' * 30)
         for line in lines:
-            print(' '.join(line.split('--->')))
+            print(' '.join(line.strip().split('--->')))
         print('-' * 30)
     else:
         print('\nError: Not found. Try again 😔', end='\n\n')
